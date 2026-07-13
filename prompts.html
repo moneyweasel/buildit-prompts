@@ -29,8 +29,9 @@
       display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
     }
     header .brand { flex: 1; min-width: 180px; }
-    header .series { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #90b8d8; }
-    header .book { font-size: 14px; font-weight: 700; color: #cde0f0; }
+    header .series { font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: #90b8d8; }
+    header .book { font-size: 20px; font-weight: 700; color: #ffffff; letter-spacing: 0.3px; }
+    header .publisher { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #6f93b8; margin-top: 3px; }
     header .count { font-size: 12px; color: #90b8d8; white-space: nowrap; }
 
     /* ── LAYOUT ── */
@@ -176,10 +177,22 @@
 
 <div id="app">
 
+<div style="background:#3a3a3a; padding:34px 20px; text-align:center;">
+  <span style="color:#fff; font-size:40px; letter-spacing:10px; text-transform:uppercase; font-family:Georgia, 'Times New Roman', serif;">Castle Vale Publishers</span>
+  <br>
+  <span style="color:#9a9a9a; font-size:18px; letter-spacing:8px; text-transform:uppercase; font-family:Georgia, 'Times New Roman', serif; margin-top:10px; display:inline-block;">London</span>
+</div>
+
+<div style="background:#FFF2CC; border-bottom:3px solid #D32F2F; padding:14px 20px; text-align:center; font-size:15px; font-weight:700; color:#B00020; line-height:1.5;">
+  ⚠ SAVE THIS PAGE NOW &mdash; Press Ctrl+D (or Cmd+D on Mac) to bookmark it.<br>
+  You will not be able to request this link by email again &mdash; this is your only way back in.
+</div>
+
 <header>
   <div class="brand">
     <div class="series">AI-Powered Skill to Business &middot; Book One</div>
     <div class="book">Build It: Create Your AI-Powered Digital Course</div>
+    <div class="publisher">Castle Vale Publishers &middot; London</div>
   </div>
   <div class="count">26 prompts &mdash; 9 chapters</div>
 </header>
@@ -208,10 +221,16 @@
 </div><!-- end layout -->
 
 <footer>
-  &copy; 2026 Daniel and Kirstie Couzens &nbsp;&middot;&nbsp; Build It: Create Your AI-Powered Digital Course
-  &nbsp;&middot;&nbsp; <a href="resources.html">Recommended Tools</a>
-  &nbsp;&middot;&nbsp; <a href="privacy.html">Privacy Policy</a>
-  &nbsp;&middot;&nbsp; <a href="index.html" onclick="sessionStorage.removeItem('bi_auth')">Sign out</a>
+  &copy; 2026 Castle Vale Publishers &amp; Daniel and Kirstie Couzens. All rights reserved.
+  This resource is provided exclusively for readers of <em>Build It: Create Your AI-Powered Digital Course</em>
+  and is not licensed for redistribution, resale, or public sharing.
+  <br style="margin-bottom:6px;">
+  <span style="display:inline-block; margin-top:6px;">
+    Build It: Create Your AI-Powered Digital Course
+    &nbsp;&middot;&nbsp; <a href="resources.html">Recommended Tools</a>
+    &nbsp;&middot;&nbsp; <a href="privacy.html">Privacy Policy</a>
+    &nbsp;&middot;&nbsp; <a href="index.html" onclick="sessionStorage.removeItem('bi_auth')">Sign out</a>
+  </span>
 </footer>
 
 </div><!-- end #app -->
