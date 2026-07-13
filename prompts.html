@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, noarchive, nosnippet, noimageindex">
+  <meta name="googlebot" content="noindex, noarchive, nosnippet">
+  <title>Your 26 Prompts &mdash; Build It</title>
+  <style>
+    /* ── RESET ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f4f7fb;
+      color: #222;
+      min-height: 100vh;
+    }
+
+    /* ── GATE (shown before auth) ── */
+    /* ── APP (hidden before auth) ── */
+    #app { display: none; }
+
+    /* ── HEADER ── */
+    header {
+      background: #1F4E79;
+      color: white;
+      padding: 14px 24px;
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    }
+    header .brand { flex: 1; min-width: 180px; }
+    header .series { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #90b8d8; }
+    header .book { font-size: 14px; font-weight: 700; color: #cde0f0; }
+    header .count { font-size: 12px; color: #90b8d8; white-space: nowrap; }
+
+    /* ── LAYOUT ── */
+    .layout { display: flex; min-height: calc(100vh - 52px); }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: 240px; flex-shrink: 0;
+      background: white;
+      border-right: 1px solid #dde6ef;
+      padding: 20px 0;
+      position: sticky; top: 52px; height: calc(100vh - 52px); overflow-y: auto;
+    }
+    .sidebar h3 {
+      font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+      color: #8a9bae; padding: 0 20px 10px; border-bottom: 1px solid #eef2f6; margin-bottom: 10px;
+    }
+    .ch-group { margin-bottom: 4px; }
+    .ch-label {
+      display: block; width: 100%; padding: 8px 20px;
+      font-size: 12px; font-weight: 700; color: #1F4E79;
+      background: none; border: none; text-align: left; cursor: pointer;
+      letter-spacing: 0.3px; transition: background .15s;
+    }
+    .ch-label:hover { background: #f0f6ff; }
+    .ch-label.active { background: #e6f0fa; }
+    .ch-prompts { display: none; }
+    .ch-prompts.open { display: block; }
+    .ch-prompts a {
+      display: block; padding: 6px 20px 6px 32px;
+      font-size: 12px; color: #4a6e8a; text-decoration: none;
+      transition: background .15s; border-left: 2px solid transparent;
+      line-height: 1.4;
+    }
+    .ch-prompts a:hover { background: #f0f6ff; color: #1F4E79; }
+    .ch-prompts a.active { border-left-color: #2E75B6; color: #1F4E79; font-weight: 600; background: #e6f0fa; }
+
+    /* ── MAIN CONTENT ── */
+    .content { flex: 1; padding: 32px 40px 60px; max-width: 860px; }
+
+    .page-header { margin-bottom: 36px; }
+    .page-header h1 { font-size: 26px; color: #1F4E79; margin-bottom: 8px; }
+    .page-header p { color: #666; font-size: 14px; line-height: 1.6; }
+
+    /* ── CHAPTER SECTION ── */
+    .ch-section { margin-bottom: 56px; }
+    .ch-section-header {
+      display: flex; align-items: center; gap: 12px;
+      border-bottom: 2px solid #dde6ef; padding-bottom: 10px; margin-bottom: 24px;
+    }
+    .ch-num {
+      background: #1F4E79; color: white;
+      font-size: 11px; font-weight: 700; letter-spacing: 1px;
+      padding: 3px 10px; border-radius: 12px; white-space: nowrap;
+    }
+    .ch-title { font-size: 18px; font-weight: 700; color: #1F4E79; }
+
+    /* ── PROMPT CARD ── */
+    .prompt-card {
+      background: white;
+      border: 1px solid #dde6ef;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      overflow: hidden;
+      transition: box-shadow .2s;
+    }
+    .prompt-card:hover { box-shadow: 0 4px 16px rgba(31,78,121,.10); }
+    .prompt-card-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px;
+      cursor: pointer;
+      gap: 12px;
+    }
+    .prompt-num {
+      background: #f0f6ff; color: #2E75B6;
+      font-size: 11px; font-weight: 700; letter-spacing: 1px;
+      padding: 2px 10px; border-radius: 10px; white-space: nowrap; flex-shrink: 0;
+    }
+    .prompt-title { font-size: 15px; font-weight: 600; color: #222; flex: 1; }
+    .toggle-icon { color: #90b8d8; font-size: 18px; flex-shrink: 0; transition: transform .2s; }
+    .prompt-card.open .toggle-icon { transform: rotate(180deg); }
+
+    .prompt-body { display: none; padding: 0 20px 20px; }
+    .prompt-card.open .prompt-body { display: block; }
+
+    /* ── FIELDS ── */
+    .fields-section { margin-bottom: 16px; }
+    .fields-section h4 {
+      font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase;
+      color: #8a9bae; margin-bottom: 10px;
+    }
+    .field-row { margin-bottom: 10px; }
+    .field-row label { display: block; font-size: 12px; font-weight: 600; color: #444; margin-bottom: 4px; }
+    .field-row input, .field-row textarea {
+      width: 100%; padding: 9px 12px; border: 1.5px solid #d0dce8;
+      border-radius: 6px; font-size: 13px; font-family: inherit;
+      color: #333; outline: none; resize: vertical; transition: border-color .2s;
+    }
+    .field-row input:focus, .field-row textarea:focus { border-color: #2E75B6; }
+    .field-row textarea { min-height: 72px; }
+
+    /* ── PROMPT TEXT PREVIEW ── */
+    .prompt-preview {
+      background: #f8fafb; border: 1.5px solid #dde6ef;
+      border-radius: 8px; padding: 16px 18px;
+      font-size: 13px; color: #2a2a2a;
+      white-space: pre-wrap; font-family: 'Courier New', monospace;
+      line-height: 1.65; margin-bottom: 14px;
+      max-height: 340px; overflow-y: auto;
+    }
+    .placeholder-highlight {
+      background: #fff3cd; color: #7F5000;
+      border-radius: 3px; padding: 0 2px;
+    }
+
+    /* ── COPY BUTTON ── */
+    .copy-btn {
+      background: #1F4E79; color: white; border: none;
+      border-radius: 7px; padding: 11px 22px;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+      transition: background .2s; display: inline-flex; align-items: center; gap: 7px;
+    }
+    .copy-btn:hover { background: #2E75B6; }
+    .copy-btn.copied { background: #375623; }
+    .copy-btn.copied::after { content: " Copied!"; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center; padding: 20px; font-size: 12px; color: #aaa;
+      border-top: 1px solid #dde6ef; background: white; margin-top: 0;
+    }
+    footer a { color: #90b8d8; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      .sidebar { display: none; }
+      .content { padding: 20px 16px 40px; }
+      header { padding: 12px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="app">
+
+<header>
+  <div class="brand">
+    <div class="series">AI-Powered Skill to Business &middot; Book One</div>
+    <div class="book">Build It: Create Your AI-Powered Digital Course</div>
+  </div>
+  <div class="count">26 prompts &mdash; 9 chapters</div>
+</header>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <h3>Chapters</h3>
+    <div id="sidebar-nav"></div>
+  </nav>
+
+  <!-- CONTENT -->
+  <main class="content">
+    <div class="page-header">
+      <h1>Your 26 Copy-and-Paste Prompts</h1>
+      <p>
+        Click any prompt to expand it. Fill in the highlighted fields &mdash;
+        the prompt text updates live. Then click <strong>Copy</strong> and paste straight into Claude.
+        Each prompt works best in a fresh conversation unless noted otherwise.
+      </p>
+    </div>
+    <div id="prompts-container"></div>
+  </main>
+
+</div><!-- end layout -->
+
+<footer>
+  &copy; 2026 Daniel and Kirstie Couzens &nbsp;&middot;&nbsp; Build It: Create Your AI-Powered Digital Course
+  &nbsp;&middot;&nbsp; <a href="resources.html">Recommended Tools</a>
+  &nbsp;&middot;&nbsp; <a href="privacy.html">Privacy Policy</a>
+  &nbsp;&middot;&nbsp; <a href="index.html" onclick="sessionStorage.removeItem('bi_auth')">Sign out</a>
+</footer>
+
+</div><!-- end #app -->
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────────
+const CHAPTERS = [
+  { num: 1, title: "Find Your Course Idea" },
+  { num: 3, title: "Your Course Architecture" },
+  { num: 4, title: "Write Your Course with AI" },
+  { num: 5, title: "Create Slides, Visuals & Action Sheets" },
+  { num: 6, title: "Recording and Production" },
+  { num: 7, title: "Upload Your Course" },
+  { num: 8, title: "Publish Your Course" },
+  { num: 9, title: "Internal Training" }
+];
+
+const PROMPTS = [
+  {
+    num: "1A", chapter: 1,
+    title: "Your Niche Finder",
+    text: `I already have one or more skills, hobbies, professions or areas of expertise that I think could become an online course.
+
+My background:
+[NUMBER] YEARS OF EXPERIENCE [WORKING / PRACTICING / PURSUING] AS A [JOB TITLE / PROFESSION / SKILLED HOBBYIST].
+
+Some of the things I regularly do or have become known for include:
+[LIST 3-5 THINGS YOU DO, TEACH, CREATE, SOLVE OR HELP PEOPLE WITH.]
+
+My target audience might be:
+[DESCRIBE YOUR IDEAL LEARNER.]
+
+Please evaluate my background and suggest the THREE strongest online course ideas.
+Rank them from strongest to weakest.
+For each idea explain:
+The exact course topic.
+Who would buy it.
+The problem it solves.
+The transformation students achieve.
+Whether people currently pay for similar courses.
+A realistic selling price.
+Why you ranked it in that position.
+How difficult it would be for a first-time course creator to build.
+
+Recommend the single best course idea to pursue first and explain why.
+Write in plain English.`
+  },
+  {
+    num: "1B", chapter: 1,
+    title: "Your Course Idea Discovery",
+    text: `I want to create an online course, but I genuinely don't know what I should teach.
+
+Please act as an experienced business coach and help me uncover knowledge, skills and experience that could become a valuable online course.
+
+Do not suggest course ideas immediately. Instead, ask me one question at a time and wait for my answer before asking the next question.
+
+Your goal is to help me discover strengths that I may not realize have commercial value.
+
+Explore areas such as:
+My work history.
+Previous careers.
+Hobbies and interests.
+Qualifications.
+Life experiences.
+Problems I've solved.
+Things people regularly ask me for help with.
+Skills I find easy that others struggle with.
+Mistakes I learned from.
+Projects I'm proud of.
+Volunteer work.
+Software, tools or equipment I know well.
+Processes I've developed.
+Subjects I enjoy talking about.
+
+Ask follow-up questions whenever something interesting appears. Do not stop after ten questions if more exploration would be useful.
+
+Only when you are confident you understand my background should you suggest the THREE strongest course ideas. For each idea explain:
+The exact course topic.
+Why it suits my experience.
+Who would buy it.
+The problem it solves.
+The transformation students achieve.
+Whether people currently pay for similar courses.
+A realistic selling price.
+Why you think this idea has commercial potential.
+
+Finally, recommend the single best course for me to build first and explain why.
+Start with your first question now.`
+  },
+  {
+    num: "1C", chapter: 1,
+    title: "Your Internal Training Needs Discovery",
+    text: `I own, manage, or work in a small or medium-sized business and want to create internal training for my employees. I do not have a dedicated Learning & Development team or an existing Learning Management System (LMS).
+
+Please act as an experienced Learning & Development consultant and help me identify exactly what training my business needs.
+
+Do not suggest a course immediately. Instead, ask me one question at a time and wait for my answer before asking the next question.
+
+Your goal is to understand my business, identify the real training need, and recommend the most appropriate solution.
+
+Explore areas such as:
+What my business does and the products or services we provide.
+Approximately how many people work here and their different roles.
+The business problem or challenge I am trying to solve.
+What currently goes wrong because people lack the necessary knowledge or skills.
+Whether the issue is caused by a lack of knowledge, inconsistent processes, poor communication, or inadequate training.
+Who needs the training (new starters, existing employees, managers, or specific departments).
+Whether there are any legal, regulatory, compliance, health and safety, or certification requirements.
+Whether employee progress, Continuing Professional Development (CPD), or training records need to be monitored.
+What success would look like after the training has been completed.
+Any existing training materials, documents, policies, or procedures that could be incorporated.
+
+Ask follow-up questions whenever additional information would help you understand the business more fully.
+
+Only when you have enough information should you produce:
+A one-page Training Needs Analysis.
+A brief business case explaining why the training is required.
+Three to five recommended training modules, with one learning outcome for each.
+Any recommendations relating to compliance, Continuing Professional Development (CPD), training records, or completion certificates.
+The three most important actions I should take first to begin building the training.
+
+Write in plain business English. Be practical, commercially realistic, and assume I have little or no previous experience designing employee training.`
+  },
+  {
+    num: "2", chapter: 1,
+    title: "Validation Check",
+    text: `I have chosen this course idea:
+[PASTE YOUR CHOSEN COURSE IDEA FROM STEP 3]
+
+Can you help me validate whether there is a paying market for this? Specifically:
+
+1. What platforms would people search to find a course like this? (e.g. Udemy, Google, YouTube, Etsy)
+2. What search terms would they use?
+3. Are there existing paid courses or products on this topic? If so, what are they and what do they typically charge?
+4. What are the signs that this audience is hungry and willing to spend money?
+5. Are there any red flags, reasons this might be hard to sell?`
+  },
+  {
+    num: "3", chapter: 1,
+    title: "Regulatory and Jurisdiction Check",
+    text: `My course idea is: [PASTE YOUR COURSE IDEA FROM STEP 3]
+My home country is: [YOUR COUNTRY]
+I plan to sell this course on an international platform (Udemy, LearnWorlds, or Podia) which will make it available globally.
+
+Please check:
+1. Does teaching this subject require a professional license or qualification in the UK, USA, Canada, or Australia?
+2. Could the content be classified as regulated advice (financial, legal, medical, therapeutic) in any of those countries?
+3. Are there any platform content policies on Udemy or LearnWorlds that could restrict or remove this type of course?
+4. If there are any concerns, what scope adjustments or disclaimers would address them?
+
+If there are no concerns, simply confirm the course is clear to publish internationally without restriction.`
+  },
+  {
+    num: "4", chapter: 1,
+    title: "Draft Course Description",
+    text: `Based on our conversation, write a one-paragraph description of my course. It should include:
+
+- Who the course is for (a specific type of person)
+- The main problem it solves
+- What they will be able to do or feel after completing it
+- Roughly how long it will take the course buyer to complete the training.
+
+Keep it 3 to 5 sentences. Use plain, direct English. No marketing jargon.`
+  },
+  {
+    num: "5", chapter: 3,
+    title: "Curriculum Architect",
+    text: `Act as an expert instructional designer with 20 years of experience designing online courses that get real results.
+
+My working course title is: [YOUR COURSE TITLE IDEA FROM CHAPTER 1]
+It is for: [YOUR TARGET AUDIENCE]
+The transformation I want to deliver: [YOUR TRANSFORMATION STATEMENT]
+
+Design a complete curriculum for this course, sized to what this topic and transformation genuinely need. Use 6 modules with 4 lessons each (24 lessons total) as your target, the ideal structure for a mid-ticket course priced $97-$297. Go above or below that only if the content truly demands it, do not pad the course to hit a number.
+
+For each module provide:
+1. A compelling module title (maximum 68 characters)
+2. A learning outcome: "By the end of this module, students will be able to..." (maximum 200 characters)
+3. Four lesson titles for each module that build logically toward that outcome (maximum 68 characters)
+
+After all modules are designed, write:
+- A one-sentence transformation statement for the whole course
+- The logical order these modules should be taught in, and why
+
+Important: focus on what the student will DO and FEEL differently, not on information I will deliver to them.`
+  },
+  {
+    num: "6", chapter: 3,
+    title: "Curriculum Refinement",
+    text: `Use whichever of these fits what you need to fix:
+
+To tighten a vague module:
+"Module 3 feels too broad. The audience's specific struggle here is [X]. Rewrite the module title, learning outcome, and 4 lessons to address that directly."
+
+To simplify for a beginner audience:
+"The language in Module 2 assumes too much existing knowledge. Rewrite those lesson titles so a complete beginner would understand them."
+
+To add more practical application:
+"Lesson 4.2 feels theoretical. Add a practical exercise or real-world scenario that makes this immediately applicable."`
+  },
+  {
+    num: "7", chapter: 3,
+    title: "Course Title and Subtitle Generator",
+    text: `Generate 10 SEO-optimized course titles and subtitles that comply with Udemy's limits (title <= 56 characters, subtitle <= 120 characters).
+
+Use a mix of these 5 formulas: number, from/to, who+result, question, system.
+
+Course topic: [YOUR TOPIC]
+Target audience: [YOUR AUDIENCE]
+Transformation: [YOUR TRANSFORMATION STATEMENT]
+Draft course description: [YOUR DRAFT COURSE DESCRIPTION]
+Key result they get: [THE MAIN OUTCOME IN ONE PHRASE]
+
+For each title, note which formula you used. Make them specific, direct, and benefit-focused. Avoid vague words like "master", "unlock", "journey", or "empower". Do not use "Ultimate Guide to..."
+
+Title maximum 56 characters
+Sub-title maximum 120 characters
+Include relevant keywords to enhance SEO`
+  },
+  {
+    num: "8", chapter: 3,
+    title: "Course Architecture Canvas Generator",
+    text: `Summarize the curriculum we just built as a Course Architecture Canvas. Use this format:
+
+My chosen course title is: [ENTER COURSE TITLE]
+My chosen course subtitle is: [ENTER COURSE SUBTITLE]
+My transformation statement is: [ENTER TRANSFORMATION STATEMENT]
+
+Now list each module as:
+MODULE [N]: [Title]
+Outcome: [learning outcome, one sentence]
+1.1  [Lesson title]
+1.2  [Lesson title]
+1.3  [Lesson title]
+1.4  [Lesson title]
+
+Repeat for all [number] modules. Keep it tight, this is a reference document, not a description.`
+  },
+  {
+    num: "9", chapter: 4,
+    title: "Lesson Brief Generator",
+    text: `Using the course curriculum we built, generate a lesson brief for:
+
+Lesson [X.X]: [YOUR LESSON TITLE FROM THE CANVAS]
+Delivery format: video course (students watch alone and pause) [OR: live webinar, real-time interaction]
+
+Include:
+1. Three key teaching points that best serve this module's learning outcome
+2. A suggested APPLY exercise, something the student does in 2-3 minutes immediately after watching. Frame it for the delivery format above.
+3. A one-sentence NEXT bridge to the following lesson
+
+Present this as a brief I can review before we write the full script.`
+  },
+  {
+    num: "10", chapter: 4,
+    title: "Lesson Script Writer",
+    text: `The brief looks good. Write the full lesson script.
+
+Use the Hook-Teach-Apply-Next structure. The Hook must:
+• Open with a specific, relatable situation or problem the student has experienced
+• Briefly bridge into the lesson topic
+• Clearly state what the student will be able to do by the end of the lesson using the phrase: "By the end of this lesson, you will..."
+
+Write in my established voice. Keep it conversational and natural to speak aloud. Aim for an 8-12 minute lesson.`
+  },
+  {
+    num: "11", chapter: 4,
+    title: "Talking Points Generator",
+    text: `Instead of a full script, write talking points for this lesson.
+
+Lesson title: [LESSON TITLE]
+Module outcome: [MODULE LEARNING OUTCOME]
+
+Format:
+HOOK (3-4 bullet points, the opening story or question)
+TEACH (5-8 bullet points, the core content, one idea per bullet)
+APPLY (2-3 bullet points, the exercise)
+NEXT (1-2 bullet points, the bridge)
+
+Each bullet point should be a full sentence I can read or speak directly. Aim for a 10-minute lesson when delivered at a comfortable pace.`
+  },
+  {
+    num: "12", chapter: 4,
+    title: "Voice Recording Polish",
+    text: `The following is a rough transcript of me speaking through a course lesson. It is unedited and contains filler words, repetition, and incomplete sentences.
+
+[PASTE YOUR OTTER.AI TRANSCRIPT HERE]
+
+Please:
+1. Rewrite this as a polished lesson script using the Hook-Teach-Apply-Next structure
+2. Remove all filler words (um, uh, like, you know, sort of)
+3. Keep my voice and tone, do not make it sound corporate or formal
+4. Preserve any specific examples, stories, or phrases I used, these are the parts that sound most like me
+5. Flag any sections where my explanation was unclear, in [SQUARE BRACKETS]
+
+My teaching style: [conversational / direct / warm, choose one]`
+  },
+  {
+    num: "13", chapter: 4,
+    title: "Write the Module Intro",
+    text: `Write a 2-minute spoken introduction for Module [NUMBER]: [MODULE TITLE].
+
+It should:
+- Welcome the student to this module
+- Remind them where they are in the overall course journey
+- Tell them what they will be able to do by the end of this module
+- Build anticipation for Lesson 1
+
+Write it in my voice as established. Warm, direct, no fluff.`
+  },
+  {
+    num: "14", chapter: 4,
+    title: "Write a Lesson Summary",
+    text: `Write a 3-sentence summary of Lesson [TITLE] that I can use as:
+1. The opening paragraph of the lesson PDF handout
+2. A caption for the lesson thumbnail
+3. The lesson description on my course platform
+
+Keep it benefit-focused. Tell the student what they will take away, not what topics are covered.`
+  },
+  {
+    num: "15", chapter: 4,
+    title: "Add a Real-World Example",
+    text: `In Lesson [X], the section on [TOPIC] feels abstract. Add a specific, realistic example that illustrates this point for [YOUR AUDIENCE]. The example should be a short scenario (3-5 sentences) that a student in this audience would immediately recognize as real.`
+  },
+  {
+    num: "16", chapter: 4,
+    title: "Simplify Complex Content",
+    text: `The following section of Lesson [X] is too complex for a beginner audience. Rewrite it so that someone with no prior knowledge of [TOPIC] can understand it without losing the core meaning:
+
+[PASTE THE SECTION TO SIMPLIFY]
+
+Avoid jargon. Use short sentences. If a technical term must be used, define it immediately in plain English.`
+  },
+  {
+    num: "17", chapter: 4,
+    title: "Rewrite in My Voice",
+    text: `The following lesson section sounds too formal / too casual / not like me. Rewrite it to match this style: [describe your teaching style in your own words].
+
+[PASTE THE SECTION TO REWRITE]`
+  },
+  {
+    num: "18A", chapter: 5,
+    title: "Slide Brief Generator (Gamma)",
+    text: `Now let's build the slides for:
+
+Lesson [N]: [LESSON NAME FROM YOUR CANVAS]
+
+Using the lesson script we built, generate a 14-slide brief in this format, use 14 as your target and adjust slightly if the content needs it. I will paste it into Gamma to generate the visual deck.
+
+SLIDE 1: Title card
+Lesson name + subtitle (max 12 words)
+
+SLIDES 2-4: Learning outcomes (one per slide)
+"By the end of this lesson, you will..."
+
+SLIDES 5-12: Content slides
+Title: [ALL CAPS, max 6 words]
+• [max 8 words]
+• [max 8 words]
+• [max 8 words]
+
+SLIDE 13: WHAT YOU NOW KNOW
+3 key takeaways from this lesson
+
+SLIDE 14: YOUR ACTION STEP
+One task starting with an action verb.
+
+Keep every bullet under 8 words. This is screen display text, not body copy.`
+  },
+  {
+    num: "18B", chapter: 5,
+    title: "Build Your Slide Deck (Claude Cowork)",
+    text: `Using the lesson scripts in this project folder, build a 14-slide PowerPoint presentation for lesson [N]: [LESSON NAME].
+
+Use this structure (14 is the target slide count, adjust slightly if the content genuinely needs it):
+
+Slide 1: Title card, module name and a subtitle (max 12 words)
+Slides 2-4: Three learning outcomes, one per slide ("By the end of this module, you will...")
+Slides 5-12: Eight content slides, title (all caps, max 6 words) + three bullets (max 8 words each)
+Slide 13: WHAT YOU NOW KNOW, three key takeaways
+Slide 14: YOUR ACTION STEP, one task, starts with an action verb
+
+Keep all bullets punchy and specific to my course content. Save as Lesson[N]_Slides.pptx in this project folder.`
+  },
+  {
+    num: "19", chapter: 5,
+    title: "Student Action Sheet Generator",
+    text: `Create a one-page student action sheet for Lesson [LESSON NUMBER, e.g. 1.1] of my course [COURSE NAME].
+
+The lesson covers [describe this lesson's specific topic].
+My student is [describe your student's background and challenge].
+
+The action sheet must fit on one page (US Letter/A4) and include:
+1. A lesson title and a short subtitle (encouraging tone)
+2. Two reflection questions with space for answers. Open-ended, not yes/no. Should connect the lesson to the student's own experience.
+3. A "Key Takeaway" sentence to complete: "The most important thing I learned today is ____________________."
+4. A "Today's Action" box: one specific task the student will complete within 24 hours. Start with an action verb.
+5. A small Notes section at the bottom.
+
+Warm, direct tone. No jargon. Format each section with a clear label in bold.`
+  },
+  {
+    num: "20", chapter: 6,
+    title: "Rewrite a Confusing Explanation",
+    text: `I have just recorded a lesson section but I think my explanation of [TOPIC OR CONCEPT] was confusing.
+
+Here is what I said (or roughly said): [PASTE YOUR TRANSCRIPT OR NOTES FROM THIS SECTION]
+
+My student is [describe: their background and knowledge level]. They do not have [specific technical knowledge they lack, e.g. "a photography background" or "experience editing photos"].
+
+Rewrite this explanation so that:
+- It uses an analogy from everyday life
+- It avoids jargon (or explains any term the first time it appears)
+- It takes no more than 60 seconds to read aloud
+- It ends with a one-sentence summary the student can remember
+
+Write it as natural spoken language ready to re-record.`
+  },
+  {
+    num: "21", chapter: 6,
+    title: "Course Promotional Video Script",
+    text: `I need a promotional video script for my [ONLINE COURSE or TRAINING PROGRAM].
+
+My course is called: [COURSE NAME]
+My target audience is: [DESCRIBE YOUR TARGET AUDIENCE]
+Their biggest challenge is: [DESCRIBE THE MAIN PROBLEM THEY ARE TRYING TO SOLVE]
+By the end of this course they will be able to: [DESCRIBE THE TRANSFORMATION OR OUTCOME]
+
+Write a promotional video script lasting between 60 and 90 seconds. Structure it exactly as follows:
+
+HOOK
+Open by describing the problem or challenge my ideal student is facing.
+
+INTRODUCTION
+Briefly introduce me and explain why I created this course.
+
+WHAT YOU WILL ACHIEVE
+Explain what students will achieve and mention three or four practical skills or outcomes they will gain from the course.
+
+CALL TO ACTION
+Finish by inviting the viewer to enroll in the course.
+
+Write naturally for spoken delivery. Use short sentences. Avoid hype, exaggerated claims, unrealistic promises or cliches. Sound like an experienced instructor speaking directly to one prospective student.`
+  },
+  {
+    num: "22", chapter: 7,
+    title: "Lesson Quiz Generator",
+    text: `You are an experienced instructional designer. Based on the lesson script below, create five multiple-choice quiz questions suitable for an online course.
+
+Requirements:
+Each question should test understanding, not simple memorization.
+Provide four answer options (A-D).
+Clearly identify the correct answer.
+Write a one-sentence explanation explaining why the correct answer is right.
+Use clear, conversational language suitable for beginners.
+Avoid trick questions.
+
+Lesson script:
+[PASTE LESSON SCRIPT HERE]`
+  },
+  {
+    num: "23", chapter: 8,
+    title: "Complete Course Publishing Copy",
+    text: `I am preparing to publish my online course on [UDEMY / LEARNWORLDS]. Using the information below and the attached course architecture canvas, write all of the marketing copy needed to publish my course.
+
+Course information
+Course title: [COURSE TITLE]
+Course subtitle: [COURSE SUBTITLE]
+Target student: [Describe who this course is for]
+The problem they currently have: [Describe the problem]
+The outcome they will achieve: [Describe the result]
+Course modules: [Paste your module titles]
+Key lessons: [Paste lesson titles if helpful]
+My teaching style: [e.g. practical, beginner-friendly, step-by-step]
+My experience and credibility: [Describe why you're qualified to teach this]
+
+Now write the following:
+
+COURSE DESCRIPTION
+Write a persuasive course description of approximately 300-500 words.
+Requirements:
+Open with the problem the student currently faces.
+Explain who the course is for.
+Explain what they will achieve.
+Briefly describe how the course is structured.
+End with the transformation after completing the course.
+Write in plain English.
+Avoid hype and exaggerated claims.
+Do not use emojis.
+
+WHAT YOU'LL LEARN
+Write 8 learning outcomes.
+Requirements:
+Begin each with a strong action verb.
+Maximum 160 characters each.
+Focus on measurable outcomes.
+Never begin with "Understand..."
+Good examples: Build... Create... Publish... Generate... Launch... Design...
+
+WHO THIS COURSE IS FOR
+Write 4 bullet points describing the ideal student. Be highly specific.
+
+COURSE REQUIREMENTS
+Write the prerequisites. If none are genuinely required, simply state that no previous experience is necessary.
+
+INSTRUCTOR BIO
+Write a professional instructor biography of approximately 100-150 words.
+Requirements:
+Begin with the strongest credibility point, my "headline."
+Explain relevant experience.
+Explain why this course was created.
+Write in first person.
+Sound human, not corporate.
+
+INSTRUCTOR HEADLINE
+Write five headline options. Maximum 60 characters.
+
+POSITIONING STATEMENT
+Write five positioning statements. Maximum 30 words each. Each should follow this structure:
+The [descriptor] course for [specific person] who wants to [specific outcome] without [fear, frustration or obstacle].
+Avoid words like: ultimate, revolutionary, game-changing.
+
+COURSE TAGLINE
+Write five short marketing taglines. Maximum 10 words.
+
+SEO KEYWORDS
+Suggest: 15 search keywords, 10 long-tail search phrases that potential students would realistically search for.
+
+LEARNWORLDS SCHOOL NAME
+Suggest 10 memorable school names suitable for my LearnWorlds platform.
+Requirements:
+Suitable as a long-term online school, not just a single course.
+Short, memorable and easy to spell.
+Avoid generic names such as "Academy", "Learning Hub" or "Online Courses" unless they genuinely fit.
+Reflect the subject and audience.
+Consider that I may add additional courses in the future.
+For each suggestion, include a one-sentence explanation of why it works.
+
+LEARNWORLDS SPECIFIC HOMEPAGE COPY
+Write homepage copy for my online school. Include:
+Headline
+Sub-headline
+Three value propositions (2-3 sentences each)
+Call to action
+
+Write in the same style as the course description.
+
+Writing style
+Write for intelligent beginners. Use a warm, encouraging tone. Avoid cliches, hype and marketing jargon. Every sentence should help the reader decide whether this course is right for them.`
+  },
+  {
+    num: "24", chapter: 9,
+    title: "Quiz Questions from Module Content",
+    text: `I have written a training module on [TOPIC]. Here is the key content:
+[paste your script or key points here]
+
+Write 10 quiz questions to check understanding. Include:
+- 5 multiple choice questions (4 options each, one correct, three plausible distractors)
+- 3 true/false questions
+- 2 short-answer questions for reflection
+
+For each multiple-choice question, mark the correct answer with [CORRECT]. Focus on application, not recall. Test whether the employee can apply the knowledge, not just repeat it.`
+  },
+  {
+    num: "25", chapter: 9,
+    title: "Internal Training Brief",
+    text: `I am building an internal training program for my team. Help me write a training brief.
+
+Organization type: [describe your firm briefly]
+Employee role: [job title or department]
+Business problem this training solves: [describe the current issue or training gap]
+What the employee should be able to do differently after completing this training: [specific behavior or skill]
+How we will measure whether the training worked: [e.g. reduced errors, faster onboarding, passed compliance test]
+Sensitivity level of the content: [low / medium / high]
+
+Write a one-page training brief covering:
+1. The business case for this training
+2. Learning objectives (3-5 bullet points starting with action verbs)
+3. Recommended platform based on sensitivity level
+4. CPD hours (based on estimated content duration)
+5. Success metrics
+
+Write in plain business English. No jargon. One page maximum.`
+  },
+  {
+    num: "26", chapter: 9,
+    title: "Manager Briefing Document",
+    text: `I am launching an internal training program called [TRAINING NAME] for [EMPLOYEE ROLE].
+
+The training covers: [brief description]
+Duration: [total hours]
+Platform: [platform name]
+Completion deadline: [date if applicable]
+
+Write a one-page briefing document for the manager whose team is completing this training. Include:
+1. What the training covers and why it matters (2-3 sentences)
+2. What managers should do before the training: (e.g. block time, communicate expectations)
+3. What managers should do after the training: (e.g. follow-up conversation, apply the skills)
+4. How completion is tracked and reported
+5. Who to contact with questions
+
+Write in a direct, professional tone. Format as a memo, not a report.`
+  }
+];
+
+// ── AUTH ──────────────────────────────────────────────────────────────────────
+// ── PLACEHOLDER PARSING ────────────────────────────────────────────────────────
+function getPlaceholders(text) {
+  const seen = new Set(), result = [];
+  for (const m of text.matchAll(/\[([A-Z][A-Z0-9 \-,\.\/'"]+?)\]/g)) {
+    if (!seen.has(m[1])) { seen.add(m[1]); result.push(m[1]); }
+  }
+  return result;
+}
+function isLong(ph) {
+  return /LIST|PASTE|DESCRIBE|SENTENCE|SECTION|TRANSCRIPT|NOTES|POINTS|MODULES|CONTENT|ABOUT|SUMMARY|ASSESSMENT/.test(ph);
+}
+function fieldId(pNum, ph) {
+  return `p${pNum}-${ph.replace(/[^a-z0-9]/gi,'_')}`;
+}
+
+// ── RENDER PROMPT TEXT ────────────────────────────────────────────────────────
+function renderText(pNum, text, values) {
+  return text.replace(/\[([A-Z][A-Z0-9 \-,\.\/'"]+?)\]/g, (match, key) => {
+    const val = (values[key] || '').trim();
+    if (val) return val;
+    return `<span class="placeholder-highlight">${match}</span>`;
+  });
+}
+
+// ── BUILD APP ─────────────────────────────────────────────────────────────────
+function buildApp() {
+  buildSidebar();
+  buildPrompts();
+  document.getElementById('app').style.display = 'block';
+}
+
+function buildSidebar() {
+  const nav = document.getElementById('sidebar-nav');
+  const grouped = {};
+  PROMPTS.forEach(p => { (grouped[p.chapter] = grouped[p.chapter] || []).push(p); });
+  CHAPTERS.forEach(ch => {
+    if (!grouped[ch.num]) return;
+    const grp = document.createElement('div');
+    grp.className = 'ch-group';
+    const btn = document.createElement('button');
+    btn.className = 'ch-label';
+    btn.textContent = `Ch ${ch.num}: ${ch.title}`;
+    btn.dataset.ch = ch.num;
+    btn.onclick = () => toggleChapter(ch.num);
+    const links = document.createElement('div');
+    links.className = 'ch-prompts'; links.id = `nav-ch-${ch.num}`;
+    grouped[ch.num].forEach(p => {
+      const a = document.createElement('a');
+      a.href = `#prompt-${p.num}`;
+      a.id = `nav-p${p.num}`;
+      a.textContent = `${p.num}. ${p.title}`;
+      a.onclick = (e) => { openChapter(ch.num); };
+      links.appendChild(a);
+    });
+    grp.appendChild(btn); grp.appendChild(links);
+    nav.appendChild(grp);
+  });
+}
+
+function toggleChapter(num) {
+  const el = document.getElementById(`nav-ch-${num}`);
+  el.classList.toggle('open');
+  document.querySelector(`[data-ch="${num}"]`).classList.toggle('active', el.classList.contains('open'));
+}
+function openChapter(num) {
+  const el = document.getElementById(`nav-ch-${num}`);
+  if (el) { el.classList.add('open'); document.querySelector(`[data-ch="${num}"]`).classList.add('active'); }
+}
+
+function buildPrompts() {
+  const container = document.getElementById('prompts-container');
+  const grouped = {};
+  PROMPTS.forEach(p => { (grouped[p.chapter] = grouped[p.chapter] || []).push(p); });
+
+  CHAPTERS.forEach(ch => {
+    if (!grouped[ch.num]) return;
+    const section = document.createElement('div');
+    section.className = 'ch-section'; section.id = `ch-${ch.num}`;
+
+    const hdr = document.createElement('div'); hdr.className = 'ch-section-header';
+    const numBadge = document.createElement('span'); numBadge.className = 'ch-num';
+    numBadge.textContent = `Chapter ${ch.num}`;
+    const titleEl = document.createElement('span'); titleEl.className = 'ch-title';
+    titleEl.textContent = ch.title;
+    hdr.appendChild(numBadge); hdr.appendChild(titleEl);
+    section.appendChild(hdr);
+
+    grouped[ch.num].forEach(p => {
+      section.appendChild(buildPromptCard(p));
+    });
+    container.appendChild(section);
+  });
+
+  // Intersection Observer for sidebar highlighting
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        document.querySelectorAll('.ch-prompts a').forEach(a => a.classList.remove('active'));
+        const id = entry.target.id.replace('prompt-','');
+        const link = document.getElementById(`nav-p${id}`);
+        if (link) { link.classList.add('active'); }
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  document.querySelectorAll('.prompt-card').forEach(c => observer.observe(c));
+}
+
+function buildPromptCard(p) {
+  const values = {};
+  const placeholders = getPlaceholders(p.text);
+
+  const card = document.createElement('div');
+  card.className = 'prompt-card'; card.id = `prompt-${p.num}`;
+
+  // Header
+  const hdr = document.createElement('div'); hdr.className = 'prompt-card-header';
+  hdr.onclick = () => { card.classList.toggle('open'); };
+  const numBadge = document.createElement('span'); numBadge.className = 'prompt-num';
+  numBadge.textContent = `Prompt ${p.num}`;
+  const title = document.createElement('span'); title.className = 'prompt-title';
+  title.textContent = p.title;
+  const icon = document.createElement('span'); icon.className = 'toggle-icon';
+  icon.textContent = '▾';
+  hdr.appendChild(numBadge); hdr.appendChild(title); hdr.appendChild(icon);
+  card.appendChild(hdr);
+
+  // Body
+  const body = document.createElement('div'); body.className = 'prompt-body';
+
+  // Fields
+  if (placeholders.length > 0) {
+    const fieldsSec = document.createElement('div'); fieldsSec.className = 'fields-section';
+    const fh = document.createElement('h4'); fh.textContent = 'Fill in your details';
+    fieldsSec.appendChild(fh);
+
+    placeholders.forEach(ph => {
+      const row = document.createElement('div'); row.className = 'field-row';
+      const lbl = document.createElement('label'); lbl.htmlFor = fieldId(p.num, ph);
+      lbl.textContent = toLabel(ph);
+      const inp = isLong(ph)
+        ? (() => { const t = document.createElement('textarea'); t.rows = 3; return t; })()
+        : document.createElement('input');
+      inp.type = 'text'; inp.id = fieldId(p.num, ph);
+      inp.placeholder = ph;
+      inp.addEventListener('input', () => {
+        values[ph] = inp.value;
+        updatePreview(preview, p.num, p.text, values);
+      });
+      row.appendChild(lbl); row.appendChild(inp);
+      fieldsSec.appendChild(row);
+    });
+    body.appendChild(fieldsSec);
+  }
+
+  // Preview
+  const preview = document.createElement('div'); preview.className = 'prompt-preview';
+  preview.innerHTML = renderText(p.num, escHtml(p.text), {});
+  body.appendChild(preview);
+
+  // Copy button
+  const copyBtn = document.createElement('button'); copyBtn.className = 'copy-btn';
+  copyBtn.innerHTML = '&#128203; Copy prompt';
+  copyBtn.onclick = () => {
+    const plain = buildPlain(p.text, values);
+    navigator.clipboard.writeText(plain).then(() => {
+      copyBtn.classList.add('copied');
+      copyBtn.innerHTML = '&#128203;';
+      setTimeout(() => { copyBtn.classList.remove('copied'); copyBtn.innerHTML = '&#128203; Copy prompt'; }, 2000);
+    });
+  };
+  body.appendChild(copyBtn);
+  card.appendChild(body);
+  return card;
+}
+
+function toLabel(ph) {
+  return ph.charAt(0) + ph.slice(1).toLowerCase().replace(/_/g, ' ');
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function buildPlain(text, values) {
+  return text.replace(/\[([A-Z][A-Z0-9 \-,\.\/'"]+?)\]/g, (match, key) => {
+    return (values[key] || '').trim() || match;
+  });
+}
+
+function updatePreview(previewEl, pNum, text, values) {
+  previewEl.innerHTML = renderText(pNum, escHtml(text), values);
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+buildApp();
+</script>
+
+</body>
+</html>

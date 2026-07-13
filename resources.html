@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex, noarchive, nosnippet">
+  <meta name="googlebot" content="noindex, noarchive">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recommended Tools & Resources — Build It: Create Your AI-Powered Digital Course</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f4f7fb;
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: #1F4E79;
+      color: white;
+      padding: 18px 24px;
+      text-align: center;
+    }
+    header .series { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #90b8d8; margin-bottom: 4px; }
+    header .book { font-size: 15px; font-weight: 600; color: #cde0f0; }
+
+    main {
+      flex: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 48px 24px 64px;
+      width: 100%;
+    }
+
+    .page-title {
+      font-size: 32px;
+      font-weight: 800;
+      color: #1F4E79;
+      margin-bottom: 8px;
+    }
+    .page-subtitle {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 8px;
+      line-height: 1.6;
+    }
+    .disclosure {
+      font-size: 13px;
+      color: #888;
+      background: #fff8e6;
+      border-left: 3px solid #D4A017;
+      padding: 10px 14px;
+      border-radius: 0 6px 6px 0;
+      margin: 20px 0 40px;
+      line-height: 1.5;
+    }
+    .disclosure strong { color: #7F5000; }
+
+    /* Chapter sections */
+    .chapter-section {
+      margin-bottom: 48px;
+    }
+    .chapter-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #2E75B6;
+      margin-bottom: 4px;
+    }
+    .chapter-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1F4E79;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e0eaf5;
+    }
+
+    /* Tool cards */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .tool-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 12px rgba(31,78,121,0.08);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .tool-card.featured {
+      border-top: 3px solid #1F4E79;
+    }
+
+    .tool-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1F4E79;
+    }
+    .tool-desc {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.5;
+      flex: 1;
+    }
+    .tool-price {
+      font-size: 13px;
+      color: #777;
+    }
+    .tool-price strong { color: #375623; }
+
+    .code-badge {
+      display: inline-block;
+      background: #FFF2CC;
+      color: #7F5000;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      border: 1px dashed #D4A017;
+      font-family: 'Courier New', monospace;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      padding: 2px 8px;
+      border-radius: 3px;
+      text-transform: uppercase;
+    }
+    .tag.free { background: #e8f5e9; color: #2e7d32; }
+    .tag.essential { background: #e3f0fb; color: #1F4E79; }
+    .tag.optional { background: #f3f3f3; color: #666; }
+    .tag.recommended { background: #fff3e0; color: #e65100; }
+
+    .tool-link {
+      display: inline-block;
+      margin-top: 4px;
+      background: #1F4E79;
+      color: white;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      text-align: center;
+      transition: background 0.15s;
+    }
+    .tool-link:hover { background: #2E75B6; }
+    .tool-link.secondary {
+      background: white;
+      color: #1F4E79;
+      border: 2px solid #1F4E79;
+    }
+    .tool-link.secondary:hover { background: #e3f0fb; }
+
+    /* Hardware section */
+    .hardware-note {
+      font-size: 13px;
+      color: #555;
+      background: #f0f6ff;
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    /* No-affiliate note */
+    .no-aff {
+      font-size: 12px;
+      color: #999;
+      font-style: italic;
+    }
+
+    footer {
+      background: #1F4E79;
+      color: #90b8d8;
+      text-align: center;
+      padding: 20px 24px;
+      font-size: 13px;
+    }
+    footer a { color: #cde0f0; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    footer .links { margin-top: 8px; }
+    footer .links a { margin: 0 10px; }
+
+    @media (max-width: 600px) {
+      .tools-grid { grid-template-columns: 1fr; }
+      .page-title { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="series">AI-Powered Skill to Business · Book 1</div>
+  <div class="book">Build It: Create Your AI-Powered Digital Course</div>
+</header>
+
+<main>
+  <h1 class="page-title">Recommended Tools &amp; Resources</h1>
+  <p class="page-subtitle">Every tool mentioned in the book, organised by chapter. Links are kept current here — no reprinting needed.</p>
+
+  <div class="disclosure">
+    <strong>Affiliate disclosure:</strong> Some links on this page are affiliate links. If you purchase through them, we earn a small commission at no extra cost to you. We only recommend tools we use and believe in. Free alternatives are always noted where available.
+  </div>
+
+  <!-- ── CHAPTER 2 ──────────────────────────────────────────────────────── -->
+  <div class="chapter-section">
+    <div class="chapter-label">Chapter 2</div>
+    <div class="chapter-title">Your AI Toolkit</div>
+    <div class="tools-grid">
+
+      <div class="tool-card featured">
+        <div class="tool-name">Claude</div>
+        <span class="tag essential">Essential</span>
+        <div class="tool-desc">The AI assistant used throughout this book. Start on the free plan — it handles everything in Chapters 1–6 without needing a paid account.</div>
+        <div class="tool-price"><strong>Free</strong> · Pro plan $20/mo</div>
+        <a href="https://claude.ai" class="tool-link" target="_blank" rel="noopener">Go to Claude →</a>
+        <div class="no-aff">No affiliate programme — recommended because it's the best tool for the job.</div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-name">Perplexity AI</div>
+        <span class="tag free">Free</span>
+        <div class="tool-desc">AI-powered search for validating your course idea, researching your audience, and checking what competitors are offering.</div>
+        <div class="tool-price"><strong>Free</strong> · Pro $20/mo (optional)</div>
+        <a href="https://perplexity.ai" class="tool-link secondary" target="_blank" rel="noopener">Go to Perplexity →</a>
+        <div class="no-aff">No affiliate programme.</div>
+      </div>
+
+      <div class="tool-card featured">
+        <div class="tool-name">Canva</div>
+        <span class="tag recommended">Recommended</span>
+        <div class="tool-desc">Design tool for slides, action sheets, social graphics, and course cover images. The free plan is sufficient for most of this book. Pro unlocks brand kits and extra templates.</div>
+        <div class="tool-price"><strong>Free</strong> · Pro ~$13–15/mo</div>
+        <!-- Replace href with your Canva affiliate link -->
+        <a href="https://canva.com" class="tool-link" target="_blank" rel="noopener">Get Canva Free →</a>
+        <div class="code-badge">BUILDIT — 30 days Pro free</div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-name">Gamma</div>
+        <span class="tag optional">Optional</span>
+        <div class="tool-desc">AI-powered presentation builder. If you want professional slides without touching Canva, Gamma generates them directly from a prompt. 400 credits free on signup.</div>
+        <div class="tool-price"><strong>Free</strong> (400 credits) · Plus $10/mo</div>
+        <a href="https://gamma.app" class="tool-link secondary" target="_blank" rel="noopener">Try Gamma →</a>
+        <div class="code-badge">BUILDIT — 500 bonus credits</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── CHAPTER 5 ──────────────────────────────────────────────────────── -->
+  <div class="chapter-section">
+    <div class="chapter-label">Chapter 5</div>
+    <div class="chapter-title">Slides, Visuals &amp; Action Sheets</div>
+    <div class="tools-grid">
+
+      <div class="tool-card featured">
+        <div class="tool-name">Canva Pro</div>
+        <span class="tag recommended">Recommended</span>
+        <div class="tool-desc">Brand kit, Magic Resize, and the full template library become valuable here when you're producing slides, action sheets, and social assets at volume. Upgrade when you're ready.</div>
+        <div class="tool-price">~$13–15/mo · Annual plan saves ~30%</div>
+        <!-- Replace href with your Canva affiliate link -->
+        <a href="https://canva.com" class="tool-link" target="_blank" rel="noopener">Start Free → Upgrade Later</a>
+        <div class="code-badge">BUILDIT — 30 days Pro free</div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-name">Gamma (AI Slides)</div>
+        <span class="tag optional">Optional</span>
+        <div class="tool-desc">Alternative to Canva for slide decks. Paste in your lesson content and Gamma builds the slides automatically — useful if you find Canva's manual process slow.</div>
+        <div class="tool-price"><strong>Free</strong> (400 credits) · Plus $10/mo</div>
+        <a href="https://gamma.app" class="tool-link secondary" target="_blank" rel="noopener">Try Gamma →</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── CHAPTER 6 ──────────────────────────────────────────────────────── -->
+  <div class="chapter-section">
+    <div class="chapter-label">Chapter 6</div>
+    <div class="chapter-title">Recording &amp; Production</div>
+
+    <div class="hardware-note">
+      📦 <strong>Hardware links below go to Amazon.</strong> We use Amazon Associates links — commission is typically 3–4% and costs you nothing extra. All recommendations are based on quality at price, not commission rate.
+    </div>
+
+    <div class="tools-grid">
+
+      <div class="tool-card featured">
+        <div class="tool-name">Blue Yeti Nano USB Mic</div>
+        <span class="tag recommended">Top Pick</span>
+        <div class="tool-desc">The microphone recommended in Chapter 6. Plug-and-play USB, excellent sound quality for online courses, no audio interface needed.</div>
+        <div class="tool-price">~$99–120 · Amazon Prime eligible</div>
+        <!-- Replace href with your Amazon Associates link -->
+        <a href="https://amazon.co.uk/s?k=Blue+Yeti+Nano" class="tool-link" target="_blank" rel="noopener">View on Amazon →</a>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-name">Samson Q2U USB Mic</div>
+        <span class="tag optional">Alternative</span>
+        <div class="tool-desc">Budget-conscious alternative to the Blue Yeti. USB and XLR output means it can grow with you if you later move to a proper audio setup.</div>
+        <div class="tool-price">~$75–90 · Amazon Prime eligible</div>
+        <!-- Replace href with your Amazon Associates link -->
+        <a href="https://amazon.co.uk/s?k=Samson+Q2U" class="tool-link secondary" target="_blank" rel="noopener">View on Amazon →</a>
+      </div>
+
+      <div class="tool-card featured">
+        <div class="tool-name">Descript</div>
+        <span class="tag recommended">Recommended</span>
+        <div class="tool-desc">Edit video by editing a transcript — cut filler words, remove silences, and fix mistakes by deleting text. The fastest way to edit talking-head course videos.</div>
+        <div class="tool-price"><strong>Free</strong> (1hr/mo) · Creator $15/mo</div>
+        <!-- Replace href with your Descript affiliate link -->
+        <a href="https://descript.com" class="tool-link" target="_blank" rel="noopener">Try Descript Free →</a>
+        <div class="code-badge">BUILDIT — $20 off first 3 months</div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-name">OBS Studio</div>
+        <span class="tag free">Free</span>
+        <div class="tool-desc">Free, open-source screen recording and streaming. Everything you need to record your screen and webcam simultaneously. No subscription, no time limits.</div>
+        <div class="tool-price"><strong>Free forever</strong></div>
+        <a href="https://obsproject.com" class="tool-link secondary" target="_blank" rel="noopener">Download OBS →</a>
+        <div class="no-aff">Open source — no affiliate.</div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-name">Loom</div>
+        <span class="tag optional">Alternative</span>
+        <div class="tool-desc">Simpler alternative to OBS for recording screen + webcam. Good for course previews, walkthroughs, and module intros. Less control than OBS but easier to start.</div>
+        <div class="tool-price"><strong>Free</strong> (25 videos) · Business $15/mo</div>
+        <!-- Replace href with your Loom affiliate link -->
+        <a href="https://loom.com" class="tool-link secondary" target="_blank" rel="noopener">Try Loom →</a>
+        <div class="code-badge">BUILDIT — 2 months free</div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-name">Ring Light (optional)</div>
+        <span class="tag optional">Optional</span>
+        <div class="tool-desc">If you're recording on camera, a basic ring light removes harsh shadows and makes your video look significantly more professional. Not needed for screen-only recordings.</div>
+        <div class="tool-price">~£25–50 on Amazon</div>
+        <!-- Replace href with your Amazon Associates link -->
+        <a href="https://amazon.co.uk/s?k=ring+light+desk" class="tool-link secondary" target="_blank" rel="noopener">View on Amazon →</a>
+      </div>
+
+    </div>
+
+    <!-- Camera subsection -->
+    <div style="margin-top:28px;">
+      <div style="font-size:13px;font-weight:700;color:#1F4E79;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">📷 Camera — Start with what you have, upgrade when it makes sense</div>
+      <div class="hardware-note" style="margin-bottom:16px;">
+        <strong>Honest advice:</strong> Your iPhone 14 Pro or later, Google Pixel 10, or any recent flagship Android shoots better video than most people realise. Add a ring light and a tidy background and your first course will look completely professional. Buy a dedicated camera when your course is generating revenue — not before.
+      </div>
+      <div class="tools-grid">
+
+        <div class="tool-card featured">
+          <div class="tool-name">iPhone 14 Pro / 15 Pro / 16 Pro / 17 Pro</div>
+          <span class="tag free">Start Here</span>
+          <div class="tool-desc">The camera you probably already have. Cinematic mode, 4K at 60fps, and ProRes on Pro models — all more than sufficient for course videos. Prop it on a tripod, add a ring light, and you're recording professionally from day one.</div>
+          <div class="tool-price">Already in your pocket</div>
+          <div class="no-aff">Use what you have. No need to buy anything.</div>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-name">Google Pixel 9 / 10 Pro</div>
+          <span class="tag free">Start Here</span>
+          <div class="tool-desc">Google's computational photography is exceptional. The Pixel 10 Pro shoots clean, colour-accurate video in low light that outperforms many dedicated cameras at this price. If you're on Android, this is the benchmark.</div>
+          <div class="tool-price">Already in your pocket (or ~£700–900 new)</div>
+          <a href="https://store.google.com/gb/category/phones" class="tool-link secondary" target="_blank" rel="noopener">View Pixel range →</a>
+          <div class="no-aff">No affiliate — direct recommendation.</div>
+        </div>
+
+        <div class="tool-card featured">
+          <div class="tool-name">Sony ZV-E10 (scale-up camera)</div>
+          <span class="tag recommended">When You're Ready to Scale</span>
+          <div class="tool-desc">The upgrade that makes a visible difference. Interchangeable lenses, a flip screen so you can see yourself while recording, and face-tracking autofocus that never loses you. Pair with a 35mm f/1.8 lens for professional background blur. Clean HDMI output means it also works as a high-quality webcam.</div>
+          <div class="tool-price">~£550–650 body · Add ~£150 for 35mm f/1.8 lens</div>
+          <!-- Replace href with your Amazon Associates link -->
+          <a href="https://amazon.co.uk/s?k=Sony+ZV-E10" class="tool-link" target="_blank" rel="noopener">View on Amazon →</a>
+        </div>
+
+        <div class="tool-card">
+          <div class="tool-name">Phone Tripod / Mount</div>
+          <span class="tag essential">Essential</span>
+          <div class="tool-desc">Whatever camera you use, a stable mount is non-negotiable. A basic desktop tripod with a phone clamp is under £20 and transforms your recording setup immediately.</div>
+          <div class="tool-price">~£15–25 on Amazon</div>
+          <!-- Replace href with your Amazon Associates link -->
+          <a href="https://amazon.co.uk/s?k=phone+tripod+desk+mount" class="tool-link secondary" target="_blank" rel="noopener">View on Amazon →</a>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── CHAPTERS 7 & 8 ──────────────────────────────────────────────────── -->
+  <div class="chapter-section">
+    <div class="chapter-label">Chapters 7 &amp; 8</div>
+    <div class="chapter-title">Uploading &amp; Publishing Your Course</div>
+    <div class="tools-grid">
+
+      <div class="tool-card featured">
+        <div class="tool-name">Udemy</div>
+        <span class="tag essential">Path A</span>
+        <div class="tool-desc">Free to list, no monthly fee, ever. Reaches Udemy's marketplace of 84 million learners. You keep 97% of sales made through your own coupon or referral links; organic marketplace sales with no link used pay 37%. Best if you want built-in discovery over full brand control.</div>
+        <div class="tool-price"><strong>Free</strong> to publish · revenue share on sales</div>
+        <a href="https://teach.udemy.com" class="tool-link" target="_blank" rel="noopener">Go to Udemy →</a>
+        <div class="no-aff">No affiliate programme for instructors.</div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-name">LearnWorlds</div>
+        <span class="tag recommended">Path B</span>
+        <div class="tool-desc">Your own branded school — you keep 100% of what you charge, no revenue share. 30-day free trial with full features and no usage limits. Best if you want your own brand and pricing control.</div>
+        <div class="tool-price">Starter $29/mo (+$5/enrolment) · Pro Trainer $99/mo</div>
+        <!-- Replace href with your LearnWorlds affiliate link -->
+        <a href="https://www.learnworlds.com" class="tool-link secondary" target="_blank" rel="noopener">Try LearnWorlds Free →</a>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div>© 2026 Daniel &amp; Kirstie Couzens · AI-Powered Skill to Business</div>
+  <div class="links">
+    <a href="index.html">Home</a>
+    <a href="prompts.html">Get the 26 Prompts</a>
+    <a href="privacy.html">Privacy Policy</a>
+  </div>
+</footer>
+
+</body>
+</html>

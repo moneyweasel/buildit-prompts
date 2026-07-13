@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, noarchive, nosnippet">
+  <meta name="googlebot" content="noindex, noarchive">
+  <title>Reader Prompts — Build It: Create Your AI-Powered Digital Course</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f4f7fb;
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: #1F4E79;
+      color: white;
+      padding: 18px 24px;
+      text-align: center;
+    }
+    header .series { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #90b8d8; margin-bottom: 4px; }
+    header .book { font-size: 15px; font-weight: 600; color: #cde0f0; }
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(31,78,121,0.10);
+      max-width: 520px;
+      width: 100%;
+      padding: 48px 40px;
+      text-align: center;
+    }
+    .badge {
+      display: inline-block;
+      background: #FFF2CC;
+      color: #7F5000;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 22px;
+    }
+    h1 {
+      font-size: 28px;
+      font-weight: 800;
+      color: #1F4E79;
+      line-height: 1.25;
+      margin-bottom: 16px;
+    }
+    .subtitle {
+      font-size: 16px;
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+    .features {
+      list-style: none;
+      text-align: left;
+      margin: 0 0 32px 0;
+      padding: 20px 24px;
+      background: #f0f6ff;
+      border-radius: 8px;
+    }
+    .features li {
+      font-size: 14px;
+      color: #2E75B6;
+      padding: 5px 0 5px 22px;
+      position: relative;
+    }
+    .features li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      font-weight: 700;
+      color: #2E75B6;
+    }
+    /* ConvertKit form styling overrides (scoped so it matches the card design) */
+    .ck-wrap { text-align: left; }
+    .formkit-form input[type="email"] {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #d0dce8;
+      border-radius: 8px;
+      font-size: 16px;
+      color: #333;
+      margin-bottom: 12px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .formkit-form input[type="email"]:focus { border-color: #2E75B6; }
+    .formkit-form button[type="submit"], .formkit-submit {
+      width: 100%;
+      background: #1F4E79;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 15px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .formkit-form button[type="submit"]:hover, .formkit-submit:hover { background: #2E75B6; }
+    .privacy {
+      font-size: 12px;
+      color: #999;
+      margin-top: 14px;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 12px;
+      color: #aaa;
+    }
+    footer a { color: #90b8d8; }
+    @media (max-width: 560px) {
+      .card { padding: 32px 24px; }
+      h1 { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="series">AI-Powered Skill to Business &middot; Book One</div>
+  <div class="book">Build It: Create Your AI-Powered Digital Course</div>
+</header>
+
+<main>
+  <div class="card">
+    <div class="badge">Reader Resource</div>
+    <h1>All 26 prompts &mdash; copy with one click</h1>
+    <p class="subtitle">
+      Enter your email and we'll send you the link instantly. Then fill in your details and copy any prompt straight into Claude.
+    </p>
+    <ul class="features">
+      <li>All 26 prompts from the book, organised by chapter</li>
+      <li>Fill in your details &mdash; the prompt updates live</li>
+      <li>One-click copy, ready to paste into Claude</li>
+      <li>Free &mdash; included with your book</li>
+    </ul>
+
+    <div class="ck-wrap">
+      <!-- ConvertKit inline form embed. Replace YOUR_FORM_UID (appears twice below)
+           and your-account.ck.page with your actual ConvertKit form UID and subdomain. -->
+      <script async data-uid="YOUR_FORM_UID" src="https://your-account.ck.page/YOUR_FORM_UID/index.js"></script>
+    </div>
+
+    <p class="privacy">
+      This resource is for readers of Build It only. We'll only ever email you about this book series. &nbsp;
+      <a href="privacy.html">Privacy policy</a>
+    </p>
+  </div>
+</main>
+
+<footer>
+  &copy; 2026 Daniel and Kirstie Couzens &nbsp;&middot;&nbsp; Build It: Create Your AI-Powered Digital Course
+  <div style="margin-top:8px;">
+    <a href="resources.html">Recommended Tools</a>
+    &nbsp;&middot;&nbsp;
+    <a href="privacy.html">Privacy Policy</a>
+  </div>
+</footer>
+
+</body>
+</html>
